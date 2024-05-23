@@ -13,23 +13,51 @@
             height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
         #timer {
-            font-size: 5em;
+            font-size: 80vw;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
         button {
-            margin: 10px;
             padding: 10px 20px;
-            font-size: 1em;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .start-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .pause-button {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            font-size: 1.5em;
         }
     </style>
 </head>
 <body>
+    <img id="logo" src="logo.png" alt="Logo" width="100">
     <div id="timer">03:00</div>
-    <button onclick="startTimer(180)">Start 3 Minutes</button>
-    <button onclick="startTimer(120)">Start 2 Minutes</button>
-    <button onclick="pauseTimer()">Pause</button>
-    <audio id="endSound" src="end-sound.mp3" preload="auto"></audio>
+    <div class="button-container">
+        <button class="start-button" onclick="startTimer(180)">Start 3 Minutes</button>
+        <button class="start-button" onclick="startTimer(120)">Start 2 Minutes</button>
+        <button class="pause-button" onclick="pauseTimer()">||</button>
+    </div>
+    <audio id="endSound" src="buzzer.wav" preload="auto"></audio>
     <script>
         let timerInterval;
         let remainingTime;
