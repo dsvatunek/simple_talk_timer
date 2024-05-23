@@ -55,7 +55,7 @@
     </style>
 </head>
 <body>
-    <img id="logo" src="your-logo.png" alt="Logo" width="100">
+    <img id="logo" src="logo.png" alt="Logo" width="100">
     <div id="timer">03:00</div>
     <div class="button-container">
         <button class="reset-button" onclick="resetTimer(180)">Reset 3 Minutes</button>
@@ -63,7 +63,7 @@
         <button class="start-button" onclick="startTimer()">Start</button>
         <button class="pause-button" onclick="pauseTimer()">||</button>
     </div>
-    <audio id="endSound" src="end-sound.wav" preload="auto"></audio>
+    <audio id="endSound" src="buzzer.wav" preload="auto"></audio>
     <script>
         let timerInterval;
         let remainingTime;
@@ -80,6 +80,7 @@
         function startTimer() {
             if (isPaused) {
                 isPaused = false;
+                clearInterval(timerInterval); // Clear any existing intervals
                 timerInterval = setInterval(() => {
                     if (!isPaused) {
                         remainingTime--;
