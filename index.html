@@ -14,7 +14,7 @@
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
             margin: 0;
-            transition: background-color 0.5s;
+            transition: background-color 0.5s, color 0.5s;
         }
         #logo {
             position: absolute;
@@ -22,7 +22,7 @@
             left: 10px;
         }
         #timer {
-            font-size: 35vw;
+            font-size: 80vw;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -38,8 +38,12 @@
             border-radius: 10px;
             cursor: pointer;
         }
-        .start-button {
+        .reset-button {
             background-color: #4CAF50;
+            color: white;
+        }
+        .start-button {
+            background-color: #2196F3;
             color: white;
         }
         .pause-button {
@@ -51,64 +55,75 @@
     </style>
 </head>
 <body>
-    <img id="logo" src="logo.png" alt="Logo" width="100">
+    <img id="logo" src="your-logo.png" alt="Logo" width="100">
     <div id="timer">03:00</div>
     <div class="button-container">
-        <button class="start-button" onclick="startTimer(180)">Start 3 Minutes</button>
-        <button class="start-button" onclick="startTimer(120)">Start 2 Minutes</button>
+        <button class="reset-button" onclick="resetTimer(180)">Reset 3 Minutes</button>
+        <button class="reset-button" onclick="resetTimer(120)">Reset 2 Minutes</button>
+        <button class="start-button" onclick="startTimer()">Start</button>
         <button class="pause-button" onclick="pauseTimer()">||</button>
     </div>
-    <audio id="endSound" src="buzzer.wav" preload="auto"></audio>
+    <audio id="endSound" src="end-sound.wav" preload="auto"></audio>
     <script>
         let timerInterval;
         let remainingTime;
-        let isPaused = false;
+        let isPaused = true;
 
-        function startTimer(duration) {
+        function resetTimer(duration) {
             clearInterval(timerInterval);
-            let timer = duration, minutes, seconds;
             remainingTime = duration;
-            isPaused = false;
-            const display = document.getElementById('timer');
-            const endSound = document.getElementById('endSound');
+            isPaused = true;
+            updateDisplay(remainingTime);
+            changeBackgroundColor(remainingTime);
+        }
 
-            timerInterval = setInterval(() => {
-                if (!isPaused) {
-                    minutes = parseInt(timer / 60, 10);
-                    seconds = parseInt(timer % 60, 10);
+        function startTimer() {
+            if (isPaused) {
+                isPaused = false;
+                timerInterval = setInterval(() => {
+                    if (!isPaused) {
+                        remainingTime--;
+                        updateDisplay(remainingTime);
+                        changeBackgroundColor(remainingTime);
 
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                    display.textContent = minutes + ":" + seconds;
-
-                    changeBackgroundColor(timer);
-
-                    if (--timer < 0) {
-                        clearInterval(timerInterval);
-                        endSound.play();
+                        if (remainingTime <= 0) {
+                            clearInterval(timerInterval);
+                            document.getElementById('endSound').play();
+                        }
                     }
-                    remainingTime = timer;
-                }
-            }, 1000);
+                }, 1000);
+            }
         }
 
         function pauseTimer() {
             isPaused = !isPaused;
         }
 
+        function updateDisplay(time) {
+            const minutes = String(Math.floor(time / 60)).padStart(2, '0');
+            const seconds = String(time % 60).padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
         function changeBackgroundColor(time) {
             const body = document.body;
             if (time <= 10) {
-                body.style.backgroundColor = 'lightcoral';
+                body.style.backgroundColor = 'darkred';
+                body.style.color = 'white';
             } else if (time <= 30) {
                 body.style.backgroundColor = 'orange';
+                body.style.color = 'black';
             } else if (time <= 60) {
                 body.style.backgroundColor = 'yellow';
+                body.style.color = 'black';
             } else {
                 body.style.backgroundColor = '#f0f0f0';
+                body.style.color = 'black';
             }
         }
+
+        // Initialize timer to 3 minutes on load
+        resetTimer(180);
     </script>
 </body>
 </html>
