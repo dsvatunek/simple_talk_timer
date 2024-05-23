@@ -78,22 +78,20 @@
         }
 
         function startTimer() {
-            if (isPaused) {
-                isPaused = false;
-                clearInterval(timerInterval); // Clear any existing intervals
-                timerInterval = setInterval(() => {
-                    if (!isPaused) {
-                        remainingTime--;
-                        updateDisplay(remainingTime);
-                        changeBackgroundColor(remainingTime);
+            clearInterval(timerInterval); // Clear any existing intervals
+            isPaused = false;
+            timerInterval = setInterval(() => {
+                if (!isPaused) {
+                    remainingTime--;
+                    updateDisplay(remainingTime);
+                    changeBackgroundColor(remainingTime);
 
-                        if (remainingTime <= 0) {
-                            clearInterval(timerInterval);
-                            document.getElementById('endSound').play();
-                        }
+                    if (remainingTime <= 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('endSound').play();
                     }
-                }, 1000);
-            }
+                }
+            }, 1000);
         }
 
         function pauseTimer() {
