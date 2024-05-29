@@ -64,7 +64,16 @@
         <button class="pause-button" onclick="pauseTimer()">||</button>
     </div>
     <audio id="endSound" src="buzzer.wav" preload="auto"></audio>
+
+
     <script>
+
+        document.getElementById('logo').addEventListener('click', function() {
+            var audio = document.getElementById('endSound');
+            audio.play();
+        });
+
+        
         let timerInterval;
         let remainingTime;
         let isPaused = true;
